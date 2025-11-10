@@ -8,37 +8,29 @@
   >
     <div class="sidebar-logo">
       <a href="https://ng.ant.design/" target="_blank">
-        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
+          <i class="fa-solid fa-book" style="color: #d6249f"></i>
         <h1>Library</h1>
       </a>
     </div>
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
+
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/welcome">Bienvenue</a>
+              <a routerLink="/welcome"><i class="fa-solid fa-house"></i>&nbsp; Bienvenue</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a>Auteur</a>
+            <a routerLink="/authors"><i class="fa-solid fa-pen-nib"></i>&nbsp; Auteur</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a>Livre</a>
+            <a routerLink="/books"><i class="fa-solid fa-book"></i>&nbsp; Livre</a>
           </li>
             <li nz-menu-item nzMatchRouter>
-            <a>Utilisateur</a>
+            <a routerLink="/users"><i class="fa-solid fa-users"></i>&nbsp; Utilisateur</a>
           </li>
             <li nz-menu-item nzMatchRouter>
-            <a>Emprunts</a>
+            <a routerLink="/loans"><i class="fa-solid fa-landmark"></i>&nbsp; Emprunts</a>
           </li>
         </ul>
-      </li>
-      <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
-        <ul>
-          <li nz-menu-item nzMatchRouter>
-            <a>Basic Form</a>
-          </li>
-        </ul>
-      </li>
     </ul>
   </nz-sider>
   <nz-layout>
