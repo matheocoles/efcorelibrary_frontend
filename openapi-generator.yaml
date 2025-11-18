@@ -1,0 +1,3 @@
+additionalProperties:
+  fileNaming: kebab-case
+  modelPropertyNaming: camelCase

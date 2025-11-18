@@ -5,7 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development"
+    "watch": "ng build --watch --configuration development",
+    "openapi": "del /f /q \"src\\app\\services\\api\" && openapi-generator-cli generate -i http://localhost:5033/swagger/v1/swagger.json -g typescript-angular -o src/app/services/api -c openapi-generator.yaml"
   },
   "prettier": {
     "printWidth": 100,
@@ -27,6 +28,7 @@
     "@angular/forms": "^20.3.0",
     "@angular/platform-browser": "^20.3.0",
     "@angular/router": "^20.3.0",
+    "@openapitools/openapi-generator-cli": "^2.25.1",
     "ng-zorro-antd": "^20.4.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
