@@ -1,11 +1,34 @@
-<button nz-button [nzType]="'primary'" (click)="showModal()"><span>Show Modal</span></button>
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Ajout d'un auteur" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+<button nz-button [nzType]="'primary'" (click)="showModal()">
+    <i class="fa-solid fa-plus"></i><span>Créer un auteur</span>
+</button>
+
+<nz-modal
+        [(nzVisible)]="isVisible"
+        nzTitle="Ajout d'un auteur"
+        [nzFooter]="null"
+        (nzOnCancel)="handleCancel()"
+        nzWidth="500px"
+>
     <ng-container *nzModalContent>
-        <p>Content one</p>
-        <p>Content two</p>
-        <p>Content three</p>
+        <form nz-form nzLayout="inline" [formGroup]="CreateAuthorForm">
+            <div style="display: flex; gap: 16px; align-items: center;">
+                <nz-form-item style="flex: 1;">
+                    <nz-form-label nzRequired="">Nom</nz-form-label>
+                    <nz-form-control nzErrorTip="Ce champ est requis">
+                        <input nz-input placeholder="Nom" formControlName="name">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item style="flex: 1;">
+                    <nz-form-label nzRequired="">Prénom</nz-form-label>
+                    <nz-form-control nzErrorTip="Ce champ est requis">
+                        <input nz-input placeholder="Prénom" formControlName="firstname">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <nz-flex nzJustify="end" style="margin-top: 16px;">
+                <button nz-button nzType="primary" (click)="submitForm()">Valider</button>
+            </nz-flex>
+        </form>
     </ng-container>
 </nz-modal>
 <br>
-
-

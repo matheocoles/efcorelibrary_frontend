@@ -1,4 +1,97 @@
-[nz-card-grid] {
-    width: 25%;
-    text-align: center;
+/* Style général pour le tableau */
+nz-table {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
 }
+
+/* Style pour l'en-tête du tableau */
+nz-table thead th {
+    background-color: #fafafa !important;
+    font-weight: 600;
+    color: #333333;
+    text-align: left;
+    padding: 12px 16px !important;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+/* Style pour les lignes du tableau */
+nz-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+nz-table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Style pour les cellules du tableau */
+nz-table tbody td {
+    padding: 12px 16px !important;
+    border-bottom: 1px solid #f0f0f0;
+    color: #555555;
+}
+
+/* Style pour la pagination */
+.ant-pagination {
+    margin-top: 16px;
+    text-align: right;
+}
+
+/* Style pour le chargement */
+.ant-spin-container {
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Style pour les filtres */
+.ant-table-filter-trigger {
+    color: #666666;
+}
+
+.ant-table-filter-dropdown {
+    padding: 12px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour les boutons de tri */
+.ant-table-column-sorters {
+    display: flex;
+    flex-direction: column;
+    margin-left: 8px;
+}
+
+/* Style pour les icônes de tri */
+.ant-table-column-sorter-up.on,
+.ant-table-column-sorter-down.on {
+    color: #1890ff;
+}
+
+/* Effet de survol pour les lignes du tableau */
+nz-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+nz-table tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f5f5f5;
+}
+
+::ng-deep nz-table {
+    tbody tr {
+        transition: all 0.2s ease;
+    }
+    tbody tr:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #f5f5f5 !important;
+    }
+}
+
+
+

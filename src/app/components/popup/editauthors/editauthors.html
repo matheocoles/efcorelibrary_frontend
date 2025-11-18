@@ -1,0 +1,89 @@
+<button nz-button [nzType]="'primary'" (click)="openSelectAuthorModal()">
+    <nz-icon nzType="edit" nzTheme="outline"></nz-icon>
+    Éditer un auteur
+</button>
+
+<!-- Modale pour sélectionner un auteur -->
+<nz-modal
+        [(nzVisible)]="isSelectAuthorModalVisible"
+        [nzTitle]="'Sélectionner un auteur'"
+        [nzBodyStyle]="{ 'max-height': '500px', 'overflow-y': 'auto' }"
+        [nzWidth]="800"
+        (nzOnCancel)="closeSelectAuthorModal()"
+        (nzOnOk)="confirmSelectAuthor()"
+>
+    <ng-container  *nzModalContent>
+    <div>
+        <p>Veuillez sélectionner un auteur dans la liste ci-dessous :</p>
+        <nz-table [nzData]="authors" [nzShowPagination]="false" nzBordered>
+            <thead>
+            <tr>
+                <th nzWidth="100px">ID</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th nzWidth="150px">Nombre de livres</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr
+                    *ngFor="let author of authors; trackBy: trackByAuthorId"
+                    (click)="selectAuthor(author.id)"
+                    [class.selected]="selectedAuthorId === author.id"
+            >
+                <td>{{ author.id }}</td>
+                <td>{{ author.name?.last }}</td>
+                <td>{{ author.name?.first }}</td>
+                <td>{{ author.bookCount }}</td>
+            </tr>
+            <tr *ngIf="authors.length === 0">
+                <td colspan="4" style="text-align: center; color: #999;">Aucun auteur disponible.</td>
+            </tr>
+            </tbody>
+        </nz-table>
+    </div>
+    </ng-container>
+</nz-modal>
+
+<!-- Modale pour éditer un auteur -->
+<nz-modal
+        [(nzVisible)]="isEditAuthorModalVisible"
+        [nzTitle]="'Éditer l\'auteur'"
+        [nzWidth]="600"
+        (nzOnCancel)="closeEditAuthorModal()"
+        (nzOnOk)="saveAuthor()"
+>
+    <ng-container  *nzModalContent>
+    <form nz-form [formGroup]="editAuthorForm" nzLayout="vertical">
+        <nz-form-item>
+            <nz-form-label>Nom</nz-form-label>
+            <nz-form-control [nzErrorTip]="lastNameErrorTpl">
+                <input nz-input formControlName="lastName" placeholder="Nom de famille"/>
+            </nz-form-control>
+            <ng-template #lastNameErrorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">
+                    Le nom est requis.
+                </ng-container>
+            </ng-template>
+        </nz-form-item>
+        <!-- Répéter pour firstName et bookCount -->
+
+        <nz-form-item>
+            <nz-form-label>Prénom</nz-form-label>
+            <nz-form-control [nzErrorTip]="firstNameErrorTpl">
+                <input nz-input formControlName="lastName" placeholder="Prénom"/>
+            </nz-form-control>
+            <ng-template #firstNameErrorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">
+                    Le prénom est requis.
+                </ng-container>
+            </ng-template>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label>Nombre de livres</nz-form-label>
+            <nz-form-control>
+                <input nz-input formControlName="bookCount" type="number" placeholder="Nombre de livres"/>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+    </ng-container>
+</nz-modal>

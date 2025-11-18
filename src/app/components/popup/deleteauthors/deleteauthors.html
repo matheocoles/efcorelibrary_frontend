@@ -1,0 +1,61 @@
+<button nz-button nzType="primary" nzDanger (click)="openSelectAuthorModal()">
+    <nz-icon nzType="delete" nzTheme="outline"></nz-icon>
+    Supprimer un auteur
+</button>
+
+<!-- MODALE 1 : Sélection d'un auteur -->
+<nz-modal
+        [(nzVisible)]="isSelectAuthorModalVisible"
+        nzTitle="Sélectionner un auteur à supprimer"
+        [nzWidth]="800"
+        (nzOnCancel)="closeSelectAuthorModal()"
+        (nzOnOk)="confirmSelectAuthor()"
+>
+    <ng-container *nzModalContent>
+        <p>Veuillez choisir un auteur :</p>
+
+        <nz-table [nzData]="authors" nzBordered [nzShowPagination]="false">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Livres</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr
+                    *ngFor="let author of authors"
+                    (click)="selectAuthor(author.id)"
+                    [class.selected]="selectedAuthorId === author.id"
+            >
+                <td>{{ author.id }}</td>
+                <td>{{ author.name?.last }}</td>
+                <td>{{ author.name?.first }}</td>
+                <td>{{ author.bookCount }}</td>
+            </tr>
+
+            <tr *ngIf="authors.length === 0">
+                <td colspan="4" style="text-align:center;color:#999">Aucun auteur trouvé.</td>
+            </tr>
+            </tbody>
+        </nz-table>
+    </ng-container>
+</nz-modal>
+
+<!-- MODALE 2 : Confirmation de suppression -->
+<nz-modal
+        [(nzVisible)]="isConfirmDeleteModalVisible"
+        nzTitle="Confirmation"
+        (nzOnCancel)="closeConfirmDeleteModal()"
+        (nzOnOk)="deleteAuthor()"
+        nzOkText="Supprimer"
+        nzOkDanger
+>
+    <ng-container *nzModalContent>
+        <p>
+            Êtes-vous sûr de vouloir supprimer cet auteur ?
+        </p>
+    </ng-container>
+</nz-modal>

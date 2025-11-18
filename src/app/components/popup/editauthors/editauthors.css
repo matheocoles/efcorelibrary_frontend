@@ -1,0 +1,30 @@
+/* editauthors.css */
+:host ::ng-deep .ant-table-tbody > tr:hover {
+    background-color: #e6f7ff !important;
+    cursor: pointer;
+}
+
+:host ::ng-deep .ant-table-tbody > tr.selected {
+    background-color: #1890ff !important;
+    color: white !important;
+    font-weight: bold;
+    border-left: 3px solid #0050b3 !important;
+}
+
+
+:host ::ng-deep .ant-table-tbody > tr {
+    transition: all 0.3s ease;
+}
+
+:host ::ng-deep .ant-table {
+    width: 100%;
+}
+
+:host ::ng-deep .ant-modal-body {
+    min-height: 200px;
+    padding: 20px;
+}
+
+:host ::ng-deep .ant-table-cell {
+    padding: 10px !important;
+}
