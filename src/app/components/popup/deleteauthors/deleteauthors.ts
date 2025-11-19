@@ -15,8 +15,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
         NzButtonModule,
         NzIconModule
     ],
-    templateUrl: './deleteauthors.component.html',
-    styleUrls: ['./deleteauthors.component.css']
+    templateUrl: './deleteauthors.html',
+    styleUrls: ['./deleteauthors.css']
 })
 export class DeleteAuthorsComponent {
     @Input() authors: any[] = [];

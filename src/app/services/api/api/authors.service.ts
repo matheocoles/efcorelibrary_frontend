@@ -55,9 +55,6 @@ export class AuthorsService extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTBearerAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTBearerAuth', 'Authorization', localVarHeaders, 'Bearer ');
-
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
         ]);
@@ -122,9 +119,6 @@ export class AuthorsService extends BaseService {
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTBearerAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTBearerAuth', 'Authorization', localVarHeaders, 'Bearer ');
-
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
@@ -163,7 +157,7 @@ export class AuthorsService extends BaseService {
     }
 
     /**
-     * @endpoint get /API/authors
+     * @endpoint get /API/authors/get
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -173,9 +167,6 @@ export class AuthorsService extends BaseService {
     public getAllAuthorsEndpoint(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
-
-        // authentication (JWTBearerAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTBearerAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -200,7 +191,7 @@ export class AuthorsService extends BaseService {
             }
         }
 
-        let localVarPath = `/API/authors`;
+        let localVarPath = `/API/authors/get`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<Array<GetAuthorDto>>('get', `${basePath}${localVarPath}`,
             {
@@ -230,9 +221,6 @@ export class AuthorsService extends BaseService {
         }
 
         let localVarHeaders = this.defaultHeaders;
-
-        // authentication (JWTBearerAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTBearerAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -291,9 +279,6 @@ export class AuthorsService extends BaseService {
         }
 
         let localVarHeaders = this.defaultHeaders;
-
-        // authentication (JWTBearerAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTBearerAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'

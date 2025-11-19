@@ -1,13 +1,16 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import {NzMessageService} from "ng-zorro-antd/message";
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import {GetAuthorDto} from "../../../services/api";
 
 @Component({
     selector: 'app-editauthors',
@@ -22,32 +25,29 @@ import {NzMessageService} from "ng-zorro-antd/message";
         NzIconModule,
         NzButtonModule
     ],
-    templateUrl: './editauthors.html',
+    templateUrl: 'editauthors.html',
     styleUrls: ['./editauthors.css']
 })
-export class EditAuthorsComponent implements OnChanges {
-    @Input() authors: any[] = [];
-    @Output() authorUpdated = new EventEmitter<any>();
+export class EditAuthors implements OnChanges {
+    @Input() authors: GetAuthorDto[] = []; // Utilisez directement GetAuthorDto[]
+    @Output() authorUpdated = new EventEmitter<GetAuthorDto>();
+    private http = inject(HttpClient);
+    private notificationService = inject(NzNotificationService);
+    private message = inject(NzMessageService);
 
     isSelectAuthorModalVisible = false;
     isEditAuthorModalVisible = false;
-    selectedAuthorId: string | null = null;
+    selectedAuthor: GetAuthorDto | null = null;
+    selectedAuthorId: number | null = null;
+
     editAuthorForm: FormGroup;
 
-    constructor(private fb: FormBuilder, private message: NzMessageService) {
+    constructor(private fb: FormBuilder) {
         this.editAuthorForm = this.fb.group({
             lastName: ['', Validators.required],
             firstName: ['', Validators.required],
-            bookCount: [0, Validators.min(0)],
-
         });
-
     }
-
-    trackByAuthorId(index: number, author: any): string {
-        return author.id;
-    }
-
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.authors) {
@@ -57,43 +57,37 @@ export class EditAuthorsComponent implements OnChanges {
 
     openSelectAuthorModal(): void {
         if (!this.authors || this.authors.length === 0) {
-            alert('Aucun auteur disponible.');
+            this.notificationService.error('Erreur', 'Aucun auteur disponible.');
             return;
         }
         this.isSelectAuthorModalVisible = true;
     }
 
-
-    selectAuthor(id: string): void {
-        this.selectedAuthorId = this.selectedAuthorId === id ? null : id;
-        console.log("Auteur sélectionné :", this.selectedAuthorId);
+    selectAuthor(author: GetAuthorDto): void {
+        this.selectedAuthor = author;
+        this.selectedAuthorId = author.id;
     }
 
-
     confirmSelectAuthor(): void {
-        if (!this.selectedAuthorId) {
-            alert('Veuillez sélectionner un auteur.');
+        if (!this.selectedAuthor) {
+            this.notificationService.error('Erreur', 'Veuillez sélectionner un auteur.');
             return;
         }
         this.isSelectAuthorModalVisible = false;
-        this.loadAuthorData(this.selectedAuthorId);
+        this.loadAuthorData(this.selectedAuthor);
         this.isEditAuthorModalVisible = true;
     }
 
-    loadAuthorData(id: string): void {
-        const author = this.authors.find((a) => a.id === id);
-        if (author) {
-            this.editAuthorForm.patchValue({
-                lastName: author.name.last,
-                firstName: author.name.first,
-                bookCount: author.bookCount,
-            });
-            console.log("Données de l'auteur chargé :", author);
-        }
+    loadAuthorData(author: GetAuthorDto): void {
+        this.editAuthorForm.patchValue({
+            lastName: author.name,
+            firstName: author.firstName,
+        });
     }
 
     closeSelectAuthorModal(): void {
         this.isSelectAuthorModalVisible = false;
+        this.selectedAuthor = null;
         this.selectedAuthorId = null;
     }
 
@@ -102,33 +96,30 @@ export class EditAuthorsComponent implements OnChanges {
         this.editAuthorForm.reset();
     }
 
-    saveAuthor(): void {
-        if (this.editAuthorForm.valid && this.selectedAuthorId) {
-            const author = this.authors.find(a => a.id === this.selectedAuthorId);
-            if (!author) return;
-
+    async saveAuthor(): Promise<void> {
+        if (this.editAuthorForm.valid && this.selectedAuthor) {
             const formValue = this.editAuthorForm.value;
-            const hasChanged =
-                author.name.last !== formValue.lastName ||
-                author.name.first !== formValue.firstName ||
-                author.bookCount !== formValue.bookCount;
-
-            if (hasChanged) {
+            try {
                 const updatedAuthor = {
-                    ...author,
-                    name: {
-                        ...author.name,
-                        first: formValue.firstName,
-                        last: formValue.lastName,
-                    },
-                    bookCount: formValue.bookCount,
+                    Id: this.selectedAuthor.id,
+                    Name: formValue.lastName,
+                    FristName: formValue.firstName,
                 };
-                this.authorUpdated.emit(updatedAuthor);
+
+                // Appel direct à l'API
+                await this.http.put(`/API/authors/${this.selectedAuthor.id}`, updatedAuthor).toPromise();
+
+                this.message.success('Auteur mis à jour avec succès !');
+                this.authorUpdated.emit({
+                    id: this.selectedAuthor.id,
+                    name: formValue.lastName,
+                    firstName: formValue.firstName,
+                });
+                this.closeEditAuthorModal();
+            } catch (error) {
+                this.notificationService.error('Erreur', 'Impossible de mettre à jour l\'auteur.');
+                console.error("Erreur lors de la mise à jour de l'auteur :", error);
             }
-            this.closeEditAuthorModal();
-            this.message.success('Auteur mis à jour avec succès !');
-            this.closeEditAuthorModal();
         }
     }
-
 }

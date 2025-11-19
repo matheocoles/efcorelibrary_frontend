@@ -1,39 +1,31 @@
 <h1>Gestion des auteurs</h1>
 <nz-flex nzGap="8px">
-    <app-addauthors />
+    <app-addauthors (authorAdded)="fetchAuthors()" />
     <app-editauthors
-            [authors]="listOfRandomUser"
-            (authorUpdated)="onAuthorUpdated($event)"
+            [authors]="authors()"
+            (authorUpdated)="fetchAuthors()"
     />
-
 </nz-flex>
 <br />
-
 <nz-table
         nzShowSizeChanger
-        [nzData]="listOfRandomUser"
+        [nzData]="authors()"
         [nzFrontPagination]="false"
-        [nzLoading]="loading"
-        [nzTotal]="total"
-        [nzPageSize]="pageSize"
-        [nzPageIndex]="pageIndex"
-        (nzQueryParams)="onQueryParamsChange($event)"
+        [nzLoading]="authorsLoading()"
 >
     <thead>
     <tr>
         <th nzColumnKey="id" [nzSortFn]="true">ID</th>
         <th nzColumnKey="name" [nzSortFn]="true">Nom</th>
-        <th nzColumnKey="firstname" [nzFilters]="filterGender" [nzFilterFn]="true">Prénom</th>
-        <th nzColumnKey="numberbooks" [nzSortFn]="true">Nombres de livres</th>
+        <th nzColumnKey="firstname" [nzSortFn]="true">Prénom</th>
     </tr>
     </thead>
     <tbody>
-        @for (data of listOfRandomUser; track data.id) {
-            <tr (click)="selectAuthor(data.id)" [class.selected]="selectedAuthorId === data.id">
+        @for (data of authors(); track data.id) {
+            <tr>
                 <td>{{ data.id }}</td>
-                <td>{{ data.name.last }}</td>
-                <td>{{ data.name.first }}</td>
-                <td>{{ data.bookCount }}</td>
+                <td>{{ data.name }}</td>
+                <td>{{ data.firstName }}</td>
             </tr>
         }
     </tbody>
