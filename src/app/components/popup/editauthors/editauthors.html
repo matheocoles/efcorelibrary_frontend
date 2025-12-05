@@ -1,58 +1,35 @@
-<nz-button nzType="primary" (click)="openSelectAuthorModal()">Sélectionner un auteur</nz-button>
+<button nz-button nzType="primary" (click)="openModal()" nzSize="small">
+    Éditer
+</button>
 
 <nz-modal
-        [(nzVisible)]="isSelectAuthorModalVisible"
-        nzTitle="Sélectionner un auteur"
-        (nzOnCancel)="closeSelectAuthorModal()"
+        [(nzVisible)]="isModalVisible"
+        nzTitle="Éditer l'auteur"
+        (nzOnCancel)="closeModal()"
         nzFooter=""
 >
-    <nz-table
-            [nzData]="authors"
-            [nzShowPagination]="false"
-            [nzFrontPagination]="false"
-    >
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Prénom</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr
-                *ngFor="let author of authors"
-                [class.selected]="selectedAuthor?.id === author.id"
-                (click)="selectAuthor(author)"
-        >
-            <td>{{ author.id }}</td>
-            <td>{{ author.name.last }}</td>
-            <td>{{ author.name.first }}</td>
-        </tr>
-        </tbody>
-    </nz-table>
-    <div style="text-align: right; margin-top: 16px;">
-        <button nz-button nzType="primary" (click)="confirmSelectAuthor()">Confirmer</button>
-    </div>
-</nz-modal>
-
-<nz-modal
-        [(nzVisible)]="isEditAuthorModalVisible"
-        nzTitle="Éditer l'auteur"
-        (nzOnCancel)="closeEditAuthorModal()"
-        (nzOnOk)="saveAuthor()"
->
-    <form nz-form [formGroup]="editAuthorForm" nzLayout="vertical">
+    <form nz-form [formGroup]="editForm" (ngSubmit)="submitForm()">
         <nz-form-item>
-            <nz-form-label>Nom</nz-form-label>
+            <nz-form-label [nzRequired]="true">Nom</nz-form-label>
             <nz-form-control>
-                <input nz-input formControlName="lastName" placeholder="Nom" />
+                <input nz-input formControlName="name" placeholder="Nom" />
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
-            <nz-form-label>Prénom</nz-form-label>
+            <nz-form-label [nzRequired]="true">Prénom</nz-form-label>
             <nz-form-control>
                 <input nz-input formControlName="firstName" placeholder="Prénom" />
             </nz-form-control>
         </nz-form-item>
+        <div style="text-align: right; margin-top: 16px;">
+            <button
+                    nz-button
+                    nzType="primary"
+                    [disabled]="!editForm.valid"
+                    (click)="submitForm()"
+            >
+                Valider
+            </button>
+        </div>
     </form>
 </nz-modal>

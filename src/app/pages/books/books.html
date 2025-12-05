@@ -1,1 +1,91 @@
-<p>books works!</p>
+<div class="books-container">
+    <h1>
+        <nz-space>
+            <span>Gestion des livres</span>
+            <nz-divider nzType="vertical"></nz-divider>
+            <br>
+            <app-addbooks (bookAdded)="refreshBooks()" />
+        </nz-space>
+    </h1>
+
+    <nz-table
+        #bookTable
+        [nzData]="books()"
+        [nzLoading]="booksLoading()"
+        [nzFrontPagination]="false"
+        nzSize="middle"
+        nzBordered
+        [nzShowSizeChanger]="true"
+        [nzShowQuickJumper]="true"
+        [nzShowTotal]="totalTemplate"
+        class="book-table"
+    >
+        <thead>
+        <tr>
+            <th nzColumnKey="title">Titre</th>
+            <th nzColumnKey="releaseYear" nzWidth="150px">Année de sortie</th>
+            <th nzColumnKey="isbn" nzWidth="150px">ISBN</th>
+            <th nzColumnKey="author" nzWidth="200px">Auteur</th>
+            <th nzWidth="150px">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+            @for (book of books(); track book.id) {
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.releaseYear }}</td>
+                    <td>{{ book.isbn }}</td>
+                    <td>
+                        <button
+                                nz-button
+                                nzType="link"
+                                nzSize="small"
+                                (click)="showAuthorModal(book.authorName, book.authorFirstName)"
+                        >
+                            {{ book.authorName }} {{ book.authorFirstName }}
+                        </button>
+                    </td>
+                    <td>
+                        <nz-space>
+                            <app-editbooks [book]="book" (bookEdited)="refreshBooks()" />
+                            <button
+                                    nz-button
+                                    nzType="text"
+                                    nzDanger
+                                    nzSize="small"
+                                    nzTooltipTitle="Supprimer ce livre"
+                                    (click)="deleteBook(book.id!)"
+                            >
+                                <span nz-icon nzType="delete" nzTheme="outline"></span>
+                            </button>
+                        </nz-space>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </nz-table>
+
+    <!-- Modal pour afficher les informations de l'auteur -->
+    <nz-modal
+            [(nzVisible)]="isAuthorModalVisible"
+            nzTitle="Informations sur l'auteur"
+            (nzOnCancel)="handleAuthorModalCancel()"
+            nzFooter=""
+            nzWidth="400px"
+    >
+        <ng-container *nzModalContent>
+            @if (selectedAuthor()) {
+                <div class="author-info">
+                    <p><strong>Nom :</strong> {{ selectedAuthor()!.name }}</p>
+                    <p><strong>Prénom :</strong> {{ selectedAuthor()!.firstName }}</p>
+                </div>
+            }
+        </ng-container>
+    </nz-modal>
+
+    <ng-template #totalTemplate let-total>
+        <span style="color: rgba(0, 0, 0, 0.45);">
+            Total : {{ total }} livre{{ total > 1 ? 's' : '' }}
+        </span>
+    </ng-template>
+</div>

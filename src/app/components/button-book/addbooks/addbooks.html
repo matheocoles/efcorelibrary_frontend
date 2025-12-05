@@ -1,0 +1,51 @@
+<button nz-button [nzType]="'primary'" (click)="showModal()">
+    <i class="fa-solid fa-plus"></i><span>Créer un livre</span>
+</button>
+<nz-modal
+        [(nzVisible)]="isVisible"
+        nzTitle="Ajout d'un livre"
+        [nzFooter]="null"
+        (nzOnCancel)="handleCancel()"
+        nzWidth="500px"
+>
+    <ng-container *nzModalContent>
+        <form nz-form [formGroup]="CreateBookForm">
+            <div style="display: flex; gap: 16px; align-items: center;">
+                <nz-form-item style="flex: 1;">
+                    <nz-form-label nzRequired>Titre</nz-form-label>
+                    <nz-form-control nzErrorTip="Ce champ est requis">
+                        <input nz-input placeholder="Titre" formControlName="title">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item style="flex: 1;">
+                    <nz-form-label nzRequired>Année de sortie</nz-form-label>
+                    <nz-form-control nzErrorTip="Ce champ est requis">
+                        <input nz-input placeholder="Année de sortie" formControlName="releaseYear">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div style="margin-top: 16px;">
+                <nz-form-item style="flex: 1;">
+                    <nz-form-label nzRequired>ISBN</nz-form-label>
+                    <nz-form-control nzErrorTip="Ce champ est requis">
+                        <input nz-input placeholder="ISBN" formControlName="isbn">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div style="margin-top: 16px;">
+                <nz-form-item style="flex: 1;">
+                    <nz-form-label nzRequired>Auteur</nz-form-label>
+                    <nz-form-control nzErrorTip="Ce champ est requis">
+                        <nz-select formControlName="authorId" placeholder="Sélectionnez un auteur">
+                            <nz-option *ngFor="let author of authors" [nzValue]="author.id" [nzLabel]="author.name + ' ' + author.firstName"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <nz-flex nzJustify="end" style="margin-top: 16px;">
+                <button nz-button nzType="primary" (click)="submitForm()">Valider</button>
+            </nz-flex>
+        </form>
+    </ng-container>
+</nz-modal>
+<br>

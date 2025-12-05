@@ -11,6 +11,6 @@
 
 export interface UpdateAuthorDto { 
     name?: string | null;
-    fristName?: string | null;
+    firstName?: string | null;
 }
 

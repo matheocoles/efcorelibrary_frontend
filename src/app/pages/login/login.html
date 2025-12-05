@@ -1,0 +1,32 @@
+<div class="login-container">
+    <nz-card class="login-card" [nzBordered]="false">
+        <div class="login-header">
+            <h1>Bienvenue</h1>
+            <p>Connectez-vous à EfCoreLibrary</p>
+        </div>
+
+        <form nz-form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Veuillez entrer votre nom d'utilisateur!">
+                    <nz-input-group nzPrefixIcon="user">
+                        <input type="text" nz-input formControlName="username" placeholder="Nom d'utilisateur" />
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Veuillez entrer votre mot de passe!">
+                    <nz-input-group nzPrefixIcon="lock">
+                        <input type="password" nz-input formControlName="password" placeholder="Mot de passe" />
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+
+            <button nz-button nzType="primary" [nzLoading]="isLoading" block>
+                Se connecter
+            </button>
+
+        </form>
+    </nz-card>
+</div>

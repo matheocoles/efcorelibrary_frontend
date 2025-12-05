@@ -1,1 +1,44 @@
-<p>users works!</p>
+<h1>Gestion des utilisateurs</h1>
+<nz-flex nzGap="8px">
+    <!-- Ajouter auteur -->
+    <app-addusers (usersAdded)="fetchUsers()" />
+</nz-flex>
+<br />
+<nz-table
+        nzShowSizeChanger
+        [nzData]="user()"
+        [nzFrontPagination]="false"
+        [nzLoading]="usersLoading()"
+>
+    <thead>
+    <tr>
+        <th nzColumnKey="name" [nzSortFn]="true">Nom</th>
+        <th nzColumnKey="firstName" [nzSortFn]="true">Prénom</th>
+        <th nzColumnKey="firstName" [nzSortFn]="true">Email</th>
+        <th nzColumnKey="firstName" [nzSortFn]="true">Date de naissance</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+        @for (users of user(); track users.id) {
+            <tr>
+                <td>{{ users.name }}</td>
+                <td>{{ users.firstName }}</td>
+                <td>{{ users.email }}</td>
+                <td>{{ users.birthday }}</td>
+                <td>
+                    <nz-flex nzGap="8px">
+                        <!-- Bouton Éditer pour chaque auteur -->
+                        <app-editusers
+                                [user]="users"
+                                (userEdited)="fetchUsers()"
+                        />
+                        <button nz-button nzType="text" nzDanger (click)="deleteUser(users.id!)">
+                            Supprimer
+                        </button>
+                    </nz-flex>
+                </td>
+            </tr>
+        }
+    </tbody>
+</nz-table>

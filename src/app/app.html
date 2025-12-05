@@ -1,44 +1,80 @@
-<nz-layout class="app-layout">
+<ng-container *ngIf="!authService.isAuthenticated()">
+    <router-outlet></router-outlet>
+</ng-container>
+
+<nz-layout class="app-layout" *ngIf="authService.isAuthenticated()">
+
     <nz-sider class="menu-sidebar"
               nzCollapsible
               nzWidth="256px"
               nzBreakpoint="md"
               [(nzCollapsed)]="isCollapsed"
-              [nzTrigger]="null"
-    >
-        <div class="sidebar-logo">
-            <i class="fa-solid fa-book" style="color: #d6249f"></i>
-            <h1>Library</h1>
-        </div>
-        <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+              [nzTrigger]="null">
 
-            <ul>
-                <li nz-menu-item nzMatchRouter>
-                    <a routerLink="/welcome"><i class="fa-solid fa-house"></i>&nbsp; Bienvenue</a>
-                </li>
-                <li nz-menu-item nzMatchRouter>
-                    <a routerLink="/authors"><i class="fa-solid fa-pen-nib"></i>&nbsp; Auteur</a>
-                </li>
-                <li nz-menu-item nzMatchRouter>
-                    <a routerLink="/books"><i class="fa-solid fa-book"></i>&nbsp; Livre</a>
-                </li>
-                <li nz-menu-item nzMatchRouter>
-                    <a routerLink="/users"><i class="fa-solid fa-users"></i>&nbsp; Utilisateur</a>
-                </li>
-                <li nz-menu-item nzMatchRouter>
-                    <a routerLink="/loans"><i class="fa-solid fa-landmark"></i>&nbsp; Emprunts</a>
-                </li>
-            </ul>
+        <div class="sidebar-logo">
+            <i class="fa-solid fa-book"></i>
+            <h1 *ngIf="!isCollapsed">Library</h1>
+        </div>
+
+        <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+            <li nz-menu-item nzMatchRouter>
+                <a routerLink="/welcome">
+                    <i class="fa-solid fa-house mon-icone"></i>
+                    <span *ngIf="!isCollapsed">&nbsp; Bienvenue</span>
+                </a>
+            </li>
+            <li nz-menu-item nzMatchRouter>
+                <a routerLink="/authors">
+                    <i class="fa-solid fa-pen-nib mon-icone"></i>
+                    <span *ngIf="!isCollapsed">&nbsp; Auteur</span>
+                </a>
+            </li>
+            <li nz-menu-item nzMatchRouter>
+                <a routerLink="/books">
+                    <i class="fa-solid fa-book mon-icone"></i>
+                    <span *ngIf="!isCollapsed">&nbsp; Livre</span>
+                </a>
+            </li>
+            <li nz-menu-item nzMatchRouter>
+                <a routerLink="/users">
+                    <i class="fa-solid fa-users mon-icone"></i>
+                    <span *ngIf="!isCollapsed">&nbsp; Utilisateur</span>
+                </a>
+            </li>
+            <li nz-menu-item nzMatchRouter>
+                <a routerLink="/loans">
+                    <i class="fa-solid fa-landmark mon-icone"></i>
+                    <span *ngIf="!isCollapsed">&nbsp; Emprunts</span>
+                </a>
+            </li>
+
+            <li nz-menu-item nzMatchRouter *ngIf="authService.isAdmin()">
+                <a routerLink="/register">
+                    <i class="fa-solid fa-user-plus" style="color: #ff4d4f;"></i>
+                    <span *ngIf="!isCollapsed">&nbsp; Admin</span>
+                </a>
+            </li>
         </ul>
     </nz-sider>
+
     <nz-layout>
         <nz-header>
             <div class="app-header">
-        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-          <nz-icon class="trigger" [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"/>
-        </span>
+                <div class="header-trigger" (click)="isCollapsed = !isCollapsed">
+                    <nz-icon class="trigger" [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"/>
+                </div>
+
+                <div class="header-user">
+                    <span class="username">
+                        {{ authService.currentUser()?.fullName }}
+                    </span>
+                    <button nz-button nzType="text" nzDanger (click)="logout()" title="Se déconnecter">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
             </div>
         </nz-header>
+
         <nz-content>
             <div class="inner-content">
                 <router-outlet></router-outlet>

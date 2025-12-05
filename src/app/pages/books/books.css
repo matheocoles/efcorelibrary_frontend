@@ -1,0 +1,32 @@
+.books-container {
+    padding: 20px;
+}
+
+.books-container h1 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.book-table {
+    margin-top: 16px;
+}
+
+::ng-deep .ant-table-small {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+::ng-deep .ant-table-thead > tr > th {
+    background-color: #fafafa !important;
+    font-weight: 600;
+}
+
+::ng-deep .ant-table-row:hover {
+    background-color: #fafafa;
+}
+
+.author-info p {
+    margin-bottom: 10px;
+    font-size: 16px;
+}

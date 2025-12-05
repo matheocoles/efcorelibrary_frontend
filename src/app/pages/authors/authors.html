@@ -1,12 +1,12 @@
-<h1>Gestion des auteurs</h1>
-<nz-flex nzGap="8px">
-    <app-addauthors (authorAdded)="fetchAuthors()" />
-    <app-editauthors
-            [authors]="authors()"
-            (authorUpdated)="fetchAuthors()"
-    />
-</nz-flex>
-<br />
+<h1>
+    <nz-space>
+        <span>Gestion des auteurs</span>
+        <nz-divider nzType="vertical"></nz-divider>
+        <br>
+        <app-addauthors (authorAdded)="authorsLoading()" />
+    </nz-space>
+</h1>
+
 <nz-table
         nzShowSizeChanger
         [nzData]="authors()"
@@ -15,17 +15,32 @@
 >
     <thead>
     <tr>
-        <th nzColumnKey="id" [nzSortFn]="true">ID</th>
         <th nzColumnKey="name" [nzSortFn]="true">Nom</th>
-        <th nzColumnKey="firstname" [nzSortFn]="true">Prénom</th>
+        <th nzColumnKey="firstName" [nzSortFn]="true">Prénom</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
-        @for (data of authors(); track data.id) {
+        @for (author of authors(); track author.id) {
             <tr>
-                <td>{{ data.id }}</td>
-                <td>{{ data.name }}</td>
-                <td>{{ data.firstName }}</td>
+                <td>{{ author.name }}</td>
+                <td>{{ author.firstName }}</td>
+                <td>
+                    <nz-flex nzGap="8px">
+                        <app-editauthors
+                                [author]="author"
+                                (authorEdited)="fetchAuthors()"
+                        />
+                        <button
+                                nz-button
+                                nzType="text"
+                                nzDanger
+                                (click)="deleteAuthor(author.id!)"
+                        >
+                            Supprimer
+                        </button>
+                    </nz-flex>
+                </td>
             </tr>
         }
     </tbody>

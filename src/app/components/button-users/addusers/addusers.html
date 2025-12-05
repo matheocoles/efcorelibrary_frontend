@@ -1,0 +1,50 @@
+<button nz-button [nzType]="'primary'" (click)="showModal()">
+    <i class="fa-solid fa-plus"></i><span>Créer un utilisateur</span>
+</button>
+
+<nz-modal
+        [(nzVisible)]="isVisible"
+        nzTitle="Ajout d'un utilisateur"
+        [nzFooter]="null"
+        (nzOnCancel)="handleCancel()"
+        nzWidth="500px"
+>
+    <ng-container *nzModalContent>
+        <form nz-form nzLayout="inline" [formGroup]="CreateUsersForm">
+            <div style="display: flex; gap: 16px; align-items: center;">
+                <nz-form-item style="flex: 1;">
+                    <nz-form-label nzRequired>Nom</nz-form-label>
+                    <nz-form-control nzErrorTip="Ce champ est requis">
+                        <input nz-input placeholder="Nom" formControlName="name">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item style="flex: 1;">
+                    <nz-form-label nzRequired>Prénom</nz-form-label>
+                    <nz-form-control nzErrorTip="Ce champ est requis">
+                        <input nz-input placeholder="Prénom" formControlName="firstname">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div style="margin-top: 16px;">
+                <nz-form-item style="flex: 1;">
+                    <nz-form-label nzRequired>Email</nz-form-label>
+                    <nz-form-control nzErrorTip="Ce champ est requis">
+                        <input nz-input placeholder="Email" formControlName="email">
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div style="margin-top: 16px;">
+                <nz-form-item style="flex: 1;">
+                    <nz-form-label nzRequired>Anniversaire</nz-form-label>
+                    <nz-form-control nzErrorTip="Ce champ est requis">
+                        <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <nz-flex nzJustify="end" style="margin-top: 16px;">
+                <button nz-button nzType="primary" (click)="submitForm()">Valider</button>
+            </nz-flex>
+        </form>
+    </ng-container>
+</nz-modal>
+<br>

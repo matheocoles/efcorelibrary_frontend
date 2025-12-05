@@ -1,0 +1,36 @@
+<button nz-button nzType="primary" (click)="openModal()" nzSize="small">
+    Éditer
+</button>
+
+<nz-modal
+        [(nzVisible)]="isModalVisible"
+        nzTitle="Éditer le livre"
+        (nzOnCancel)="closeModal()"
+        nzFooter=""
+>
+    <form nz-form [formGroup]="editForm" (ngSubmit)="submitForm()">
+        <nz-form-item>
+            <nz-form-label [nzRequired]="true">Titre</nz-form-label>
+            <nz-form-control>
+                <input nz-input formControlName="title" placeholder="Titre" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzRequired]="true">Année de sortie</nz-form-label>
+            <nz-form-control>
+                <input nz-input formControlName="releaseYear" placeholder="Année de sortie" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzRequired]="true">ISBN</nz-form-label>
+            <nz-form-control>
+                <input nz-input formControlName="isbn" placeholder="ISBN" />
+            </nz-form-control>
+        </nz-form-item>
+        <div style="text-align: right;">
+            <button nz-button nzType="primary" [disabled]="!editForm.valid" (click)="submitForm()">
+                Valider
+            </button>
+        </div>
+    </form>
+</nz-modal>

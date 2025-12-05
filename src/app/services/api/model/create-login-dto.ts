@@ -9,9 +9,10 @@
  */
 
 
-export interface LoginRequest { 
-    username?: string | null;
-    fullname?: string | null;
-    password?: string | null;
+export interface CreateLoginDto { 
+    username: string;
+    fullName: string;
+    password: string;
+    role?: string;
 }
 

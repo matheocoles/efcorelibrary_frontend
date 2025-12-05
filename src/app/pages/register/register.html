@@ -1,0 +1,33 @@
+<nz-card nzTitle="Créer un nouvel utilisateur" class="register-card">
+    <form nz-form [formGroup]="registerForm" (ngSubmit)="submitForm()">
+
+        <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="username">Identifiant</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Requis">
+                <input nz-input formControlName="username" id="username" />
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="fullName">Nom complet</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Requis">
+                <input nz-input formControlName="fullName" id="fullName" />
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="password">Mot de passe</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Requis (min 6 caractères)">
+                <input type="password" nz-input formControlName="password" id="password" />
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-control [nzOffset]="6" [nzSpan]="14">
+                <button nz-button nzType="primary" [nzLoading]="isLoading">Créer l'utilisateur</button>
+                <button nz-button nzType="default" type="button" (click)="registerForm.reset()" style="margin-left: 10px;">Réinitialiser</button>
+            </nz-form-control>
+        </nz-form-item>
+
+    </form>
+</nz-card>
