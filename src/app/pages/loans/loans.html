@@ -1,1 +1,49 @@
-<p>loans works!</p>
+<h1>
+    <nz-space>
+        <span>Gestion des Emprunts</span>
+        <nz-divider nzType="vertical"></nz-divider>
+        <app-add-loan (loanAdded)="fetchLoans()"></app-add-loan>
+    </nz-space>
+</h1>
+
+<nz-table #basicTable [nzData]="loans()" [nzLoading]="isLoading()" [nzPageSize]="10">
+    <thead>
+    <tr>
+        <th>Livre</th>
+        <th>Emprunteur</th>
+        <th>Date Emprunt</th>
+        <th>Date Retour Prévue</th>
+        <th>Statut</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+        @for (data of basicTable.data; track data.id) {
+            <tr>
+                <td style="font-weight: 500;">{{ data.bookTitle }}</td>
+                <td>{{ data.userName }} {{ data.userFirstName }}</td> <td>{{ data.date | date:'dd/MM/yyyy' }}</td>
+                <td>{{ data.plannedReturningDate | date:'dd/MM/yyyy' }}</td>
+
+                <td>
+                    @if (data.effectiveReturningDate) {
+                        <nz-tag nzColor="success">Rendu</nz-tag>
+                    } @else if (isLate(data)) {
+                        <nz-tag nzColor="error">En retard</nz-tag>
+                    } @else {
+                        <nz-tag nzColor="processing">En cours</nz-tag>
+                    }
+                </td>
+
+                <td>
+                    <nz-space>
+                        <app-edit-loan [loan]="data" (loanEdited)="fetchLoans()"></app-edit-loan>
+
+                        <button nz-button nzType="text" nzDanger nz-tooltip="Supprimer" (click)="deleteLoan(data.id!)">
+                            <span nz-icon nzType="delete"></span>
+                        </button>
+                    </nz-space>
+                </td>
+            </tr>
+        }
+    </tbody>
+</nz-table>

@@ -1,37 +1,32 @@
-/* --- TA BASE CSS --- */
+/* =============================================
+   1. CONFIGURATION GLOBALE
+   ============================================= */
 :host {
-    display: flex;
+    display: block;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* CORRECTION DU "BLANC" EN BAS :
+   On force le layout principal à prendre au moins
+   toute la hauteur de la fenêtre (Viewport Height).
+*/
 .app-layout {
-    height: 100vh;
-    width: 100%; /* Ajout sécurité */
+    min-height: 100vh;
 }
 
+/* =============================================
+   2. BARRE LATÉRALE (SIDEBAR)
+   ============================================= */
 .menu-sidebar {
     position: relative;
     z-index: 10;
-    min-height: 100vh;
+    min-height: 100vh; /* Force la barre à suivre la hauteur totale */
     box-shadow: 2px 0 6px rgba(0,21,41,.35);
 }
 
-.header-trigger {
-    height: 64px;
-    padding: 0 24px; /* Ajusté légèrement pour le centrage vertical */
-    font-size: 20px;
-    cursor: pointer;
-    transition: all .3s,padding 0s;
-    display: flex; /* Pour centrer l'icône */
-    align-items: center;
-}
-
-.trigger:hover {
-    color: #1890ff;
-}
-
+/* LOGO EN HAUT À GAUCHE */
 .sidebar-logo {
     position: relative;
     height: 64px;
@@ -40,37 +35,43 @@
     line-height: 64px;
     background: #001529;
     transition: all .3s;
+
+    /* Flexbox pour aligner l'icône et le texte */
+    display: flex;
+    align-items: center;
 }
 
-.sidebar-logo img {
-    display: inline-block;
-    height: 32px;
-    width: 32px;
-    vertical-align: middle;
-}
-
-/* J'ai ajouté le style pour l'icône FontAwesome au cas où tu n'as pas d'image */
+/* Icône du logo (Livre rose) */
 .sidebar-logo i {
     display: inline-block;
-    font-size: 32px;
+    font-size: 20px; /* Taille ajustée */
     vertical-align: middle;
-    color: #d6249f; /* Ta couleur rose */
+    color: #d6249f; /* Rose */
+    margin-right: 12px;
 }
 
+/* Texte du logo */
 .sidebar-logo h1 {
     display: inline-block;
-    margin: 0 0 0 20px;
+    margin: 0;
     color: #fff;
     font-weight: 600;
-    font-size: 14px;
-    font-family: Avenir,Helvetica Neue,Arial,Helvetica,sans-serif;
+    font-size: 18px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     vertical-align: middle;
+
+    /* Empêche le texte de se casser quand le menu se plie */
+    white-space: nowrap;
 }
 
+/* =============================================
+   3. EN-TÊTE (HEADER)
+   ============================================= */
 nz-header {
     padding: 0;
     width: 100%;
     z-index: 2;
+    background: #fff;
 }
 
 .app-header {
@@ -80,35 +81,59 @@ nz-header {
     background: #fff;
     box-shadow: 0 1px 4px rgba(0,21,41,.08);
 
-    /* --- AJOUT POUR ALIGNER LE USER À DROITE --- */
+    /* Flexbox pour écarter le Trigger (gauche) du User (droite) */
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-nz-content {
-    margin: 24px;
+/* BOUTON PLIER/DÉPLIER LE MENU */
+.header-trigger {
+    height: 64px;
+    padding: 0 24px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all .3s, padding 0s;
+    display: flex;
+    align-items: center;
 }
 
-.inner-content {
-    padding: 24px;
-    background: #fff;
-    height: 100%;
+.header-trigger:hover {
+    color: #1890ff; /* Bleu au survol */
 }
 
-.mon-icone {
-    color: #3498db; /* Bleu */
-}
-
-/* --- AJOUT POUR LE PROFIL UTILISATEUR --- */
+/* SECTION UTILISATEUR (DROITE) */
 .header-user {
     padding-right: 24px;
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 16px; /* Espace entre le nom et le bouton logout */
 }
 
 .header-user .username {
     font-weight: 500;
     color: #555;
+    font-size: 14px;
+}
+
+/* =============================================
+   4. ZONE DE CONTENU PRINCIPAL
+   ============================================= */
+nz-content {
+    margin: 24px;
+}
+
+.inner-content {
+    /* Fond blanc derrière tes pages */
+    padding: 24px;
+    background: #fff;
+    border-radius: 4px; /* Optionnel : coins arrondis */
+
+    /* S'assure que le contenu blanc remplit l'espace */
+    height: 100%;
+}
+
+/* Classe utilitaire pour les icônes du menu si besoin */
+.mon-icone {
+    color: #3498db;
 }

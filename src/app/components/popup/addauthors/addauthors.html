@@ -1,5 +1,6 @@
-<button nz-button [nzType]="'primary'" (click)="showModal()">
-    <i class="fa-solid fa-plus"></i><span>Créer un auteur</span>
+<button nz-button nzType="primary" (click)="showModal()">
+    <span nz-icon nzType="plus"></span>
+    <span>Créer un auteur</span>
 </button>
 
 <nz-modal
@@ -10,30 +11,35 @@
         nzWidth="500px"
 >
     <ng-container *nzModalContent>
-        <form nz-form [formGroup]="CreateAuthorForm" (ngSubmit)="submitForm()">
+        <form nz-form [formGroup]="createAuthorForm" (ngSubmit)="submitForm()">
+
             <nz-form-item>
-                <nz-form-label [nzRequired]="true">Nom</nz-form-label>
-                <nz-form-control [nzErrorTip]="'Ce champ est requis'">
-                    <input nz-input formControlName="name" placeholder="Nom" />
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Nom</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Le nom est requis">
+                    <input nz-input formControlName="name" placeholder="Ex: Hugo" />
                 </nz-form-control>
             </nz-form-item>
+
             <nz-form-item>
-                <nz-form-label [nzRequired]="true">Prénom</nz-form-label>
-                <nz-form-control [nzErrorTip]="'Ce champ est requis'">
-                    <input nz-input formControlName="firstname" placeholder="Prénom" />
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Prénom</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Le prénom est requis">
+                    <input nz-input formControlName="firstname" placeholder="Ex: Victor" />
                 </nz-form-control>
             </nz-form-item>
-            <nz-flex nzJustify="end" style="margin-top: 16px;">
+
+            <div style="text-align: right; margin-top: 16px;">
+                <button nz-button nzType="default" style="margin-right: 8px;" (click)="handleCancel()">
+                    Annuler
+                </button>
                 <button
                         nz-button
                         nzType="primary"
-                        [disabled]="!CreateAuthorForm.valid"
-                        (click)="submitForm()"
+                        [nzLoading]="isSubmitting"
+                        [disabled]="!createAuthorForm.valid"
                 >
                     Valider
                 </button>
-            </nz-flex>
+            </div>
         </form>
     </ng-container>
 </nz-modal>
-<br>

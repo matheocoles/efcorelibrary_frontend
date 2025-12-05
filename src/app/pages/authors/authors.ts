@@ -1,15 +1,23 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
+import { CommonModule } from '@angular/common'; // Important pour @for
+
+// Services & Models
+import { AuthorsService, GetAuthorDto } from "../../services/api"; // Vérifie ton chemin
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { NzFlexDirective } from "ng-zorro-antd/flex";
+
+// NG-ZORRO Imports
 import { NzTableModule } from "ng-zorro-antd/table";
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { AuthorsService, GetAuthorDto } from "../../services/api";
+import { NzDividerModule } from "ng-zorro-antd/divider";
+import { NzSpaceModule } from "ng-zorro-antd/space";
+import { NzFlexModule } from "ng-zorro-antd/flex";
+import { NzIconModule } from 'ng-zorro-antd/icon';
+
+// Components
 import { EditAuthors } from "../../components/popup/editauthors/editauthors";
-import {NzDividerComponent} from "ng-zorro-antd/divider";
-import {NzSpaceComponent} from "ng-zorro-antd/space";
-import {Addauthors} from "../../components/popup/addauthors/addauthors";
+import { AddAuthors } from "../../components/popup/addauthors/addauthors"; // J'ai renommé le composant enfant
 
 @Component({
     selector: 'app-authors',
@@ -17,13 +25,15 @@ import {Addauthors} from "../../components/popup/addauthors/addauthors";
     styleUrls: ['./authors.css'],
     standalone: true,
     imports: [
+        CommonModule,
         NzTableModule,
-        NzFlexDirective,
+        NzFlexModule,
         NzButtonModule,
+        NzDividerModule,
+        NzSpaceModule,
+        NzIconModule,
         EditAuthors,
-        NzDividerComponent,
-        NzSpaceComponent,
-        Addauthors,
+        AddAuthors,
     ],
 })
 export class Authors implements OnInit {
@@ -31,6 +41,7 @@ export class Authors implements OnInit {
     private notificationService = inject(NzNotificationService);
     private modalService = inject(NzModalService);
 
+    // Signals
     authorsLoading = signal<boolean>(false);
     authors = signal<GetAuthorDto[]>([]);
 
@@ -41,9 +52,9 @@ export class Authors implements OnInit {
     async fetchAuthors(): Promise<void> {
         this.authorsLoading.set(true);
         try {
-            const authors = await firstValueFrom(this.authorsService.getAllAuthorsEndpoint());
-            this.authors.set(authors);
-            console.log('Auteurs chargés :', this.authors());
+            // firstValueFrom est la méthode moderne pour convertir un Observable en Promise
+            const authorsList = await firstValueFrom(this.authorsService.getAllAuthorsEndpoint());
+            this.authors.set(authorsList);
         } catch (error) {
             console.error('Erreur lors du chargement des auteurs:', error);
             this.notificationService.error('Erreur', 'Erreur de communication avec l\'API');
@@ -63,7 +74,7 @@ export class Authors implements OnInit {
                 try {
                     await firstValueFrom(this.authorsService.deleteAuthorEndpoint(id));
                     this.notificationService.success('Succès', 'L\'auteur a été supprimé avec succès.');
-                    await this.fetchAuthors();
+                    await this.fetchAuthors(); // Recharger la liste après suppression
                 } catch (error) {
                     console.error('Erreur lors de la suppression:', error);
                     this.notificationService.error('Erreur', 'Impossible de supprimer l\'auteur.');

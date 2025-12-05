@@ -1,5 +1,5 @@
-<button nz-button [nzType]="'primary'" (click)="showModal()">
-    <i class="fa-solid fa-plus"></i><span>Créer un utilisateur</span>
+<button nz-button nzType="primary" (click)="showModal()">
+    <i class="fa-solid fa-plus"></i><span>&nbsp;Créer un utilisateur</span>
 </button>
 
 <nz-modal
@@ -7,17 +7,19 @@
         nzTitle="Ajout d'un utilisateur"
         [nzFooter]="null"
         (nzOnCancel)="handleCancel()"
-        nzWidth="500px"
+        nzWidth="600px"
 >
     <ng-container *nzModalContent>
-        <form nz-form nzLayout="inline" [formGroup]="CreateUsersForm">
-            <div style="display: flex; gap: 16px; align-items: center;">
+        <form nz-form [formGroup]="createUsersForm" (ngSubmit)="submitForm()">
+
+            <div style="display: flex; gap: 16px;">
                 <nz-form-item style="flex: 1;">
                     <nz-form-label nzRequired>Nom</nz-form-label>
                     <nz-form-control nzErrorTip="Ce champ est requis">
                         <input nz-input placeholder="Nom" formControlName="name">
                     </nz-form-control>
                 </nz-form-item>
+
                 <nz-form-item style="flex: 1;">
                     <nz-form-label nzRequired>Prénom</nz-form-label>
                     <nz-form-control nzErrorTip="Ce champ est requis">
@@ -25,26 +27,45 @@
                     </nz-form-control>
                 </nz-form-item>
             </div>
-            <div style="margin-top: 16px;">
-                <nz-form-item style="flex: 1;">
-                    <nz-form-label nzRequired>Email</nz-form-label>
-                    <nz-form-control nzErrorTip="Ce champ est requis">
-                        <input nz-input placeholder="Email" formControlName="email">
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-            <div style="margin-top: 16px;">
-                <nz-form-item style="flex: 1;">
-                    <nz-form-label nzRequired>Anniversaire</nz-form-label>
-                    <nz-form-control nzErrorTip="Ce champ est requis">
-                        <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-            <nz-flex nzJustify="end" style="margin-top: 16px;">
-                <button nz-button nzType="primary" (click)="submitForm()">Valider</button>
+
+            <nz-form-item>
+                <nz-form-label nzRequired>Email</nz-form-label>
+                <nz-form-control [nzErrorTip]="emailErrorTpl">
+                    <input nz-input placeholder="Email" formControlName="email">
+                    <ng-template #emailErrorTpl let-control>
+                        @if (control.errors?.['required']) {
+                            Ce champ est requis
+                        } @else if (control.errors?.['email']) {
+                            Format d'email invalide
+                        }
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-label nzRequired>Anniversaire</nz-form-label>
+                <nz-form-control nzErrorTip="Veuillez sélectionner une date">
+                    <nz-date-picker
+                            formControlName="birthday"
+                            style="width: 100%;"
+                            [nzFormat]="'dd/MM/yyyy'">
+                    </nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-flex nzJustify="end" style="margin-top: 24px;">
+                <button nz-button nzType="default" (click)="handleCancel()" style="margin-right: 8px;">
+                    Annuler
+                </button>
+                <button
+                        nz-button
+                        nzType="primary"
+                        [nzLoading]="isSubmitting"
+                        [disabled]="!createUsersForm.valid">
+                    Valider
+                </button>
             </nz-flex>
+
         </form>
     </ng-container>
 </nz-modal>
-<br>

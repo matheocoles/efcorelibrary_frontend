@@ -6,6 +6,8 @@ api.module.ts
 api/api.ts
 api/authors.service.ts
 api/books.service.ts
+api/calendar.service.ts
+api/dashboard.service.ts
 api/loans.service.ts
 api/login.service.ts
 api/logins.service.ts
@@ -14,12 +16,14 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
+model/calendar-event-dto.ts
 model/connect-login-dto.ts
 model/create-author-dto.ts
 model/create-book-dto.ts
 model/create-loan-dto.ts
 model/create-login-dto.ts
 model/create-user-dto.ts
+model/dashboard-stats-response.ts
 model/get-author-dto.ts
 model/get-book-dto.ts
 model/get-loan-dto.ts
@@ -28,6 +32,7 @@ model/get-login-dto.ts
 model/get-user-dto.ts
 model/models.ts
 model/patch-effective-return-dto.ts
+model/recent-loan-dto.ts
 model/update-author-dto.ts
 model/update-book-dto.ts
 model/update-loan-dto.ts

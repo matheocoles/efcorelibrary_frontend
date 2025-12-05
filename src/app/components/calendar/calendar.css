@@ -1,13 +1,28 @@
+/* Supprime les puces par défaut de la liste */
 .events {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.events .ant-badge-status {
-    overflow: hidden;
+/* Gestion de l'affichage des titres */
+.events li {
+    /* Si le titre est trop long, on met "..." */
     white-space: nowrap;
-    width: 100%;
+    overflow: hidden;
     text-overflow: ellipsis;
+
+    /* Taille de police un peu réduite pour que ça rentre mieux */
     font-size: 12px;
+    margin-bottom: 2px;
+}
+
+/* Force le calendrier à prendre la largeur disponible */
+nz-calendar {
+    width: 100%;
+}
+
+/* (Optionnel) Réduit un peu le header du calendrier pour gagner de la place */
+:host ::ng-deep .ant-picker-calendar-header {
+    padding: 10px 0;
 }

@@ -62,7 +62,7 @@ export const routes: Routes = [
                 children: [
                     {
                         path: 'add', // Accessible via /authors/add
-                        loadComponent: () => import('./components/popup/addauthors/addauthors').then(m => m.Addauthors),
+                        loadComponent: () => import('./components/popup/addauthors/addauthors').then(m => m.AddAuthors),
                     }
                 ]
             },

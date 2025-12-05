@@ -2,42 +2,46 @@
     <nz-space>
         <span>Gestion des auteurs</span>
         <nz-divider nzType="vertical"></nz-divider>
-        <br>
-        <app-addauthors (authorAdded)="authorsLoading()" />
+        <app-addauthors (authorAdded)="fetchAuthors()" />
     </nz-space>
 </h1>
 
 <nz-table
-        nzShowSizeChanger
-        [nzData]="authors()"
-        [nzFrontPagination]="false"
-        [nzLoading]="authorsLoading()"
+    #basicTable
+    nzShowSizeChanger
+    [nzData]="authors()"
+    [nzFrontPagination]="true"
+    [nzLoading]="authorsLoading()"
+    [nzPageSize]="10"
 >
     <thead>
     <tr>
         <th nzColumnKey="name" [nzSortFn]="true">Nom</th>
         <th nzColumnKey="firstName" [nzSortFn]="true">Prénom</th>
-        <th>Actions</th>
+        <th nzWidth="200px">Actions</th>
     </tr>
     </thead>
     <tbody>
-        @for (author of authors(); track author.id) {
+    <!-- Utilisation de la syntaxe Control Flow (@for) -->
+        @for (author of basicTable.data; track author.id) {
             <tr>
                 <td>{{ author.name }}</td>
                 <td>{{ author.firstName }}</td>
                 <td>
-                    <nz-flex nzGap="8px">
+                    <nz-flex nzGap="small">
+                        <!-- Assure-toi que EditAuthors a aussi un Output pour recharger -->
                         <app-editauthors
                                 [author]="author"
                                 (authorEdited)="fetchAuthors()"
                         />
                         <button
                                 nz-button
-                                nzType="text"
+                                nzType="primary"
                                 nzDanger
+                                nzSize="small"
                                 (click)="deleteAuthor(author.id!)"
                         >
-                            Supprimer
+                            <span nz-icon nzType="delete"></span>
                         </button>
                     </nz-flex>
                 </td>

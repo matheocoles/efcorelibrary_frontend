@@ -6,7 +6,7 @@ import { NzFlexDirective } from "ng-zorro-antd/flex";
 import { NzTableModule } from "ng-zorro-antd/table";
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import {AuthorsService, GetAuthorDto, GetUserDto, UsersService} from "../../services/api";
-import {Addusers} from "../../components/button-users/addusers/addusers";
+import {AddUsers} from "../../components/button-users/addusers/addusers";
 import {Editusers} from "../../components/button-users/editusers/editusers";
 
 @Component({
@@ -18,7 +18,7 @@ import {Editusers} from "../../components/button-users/editusers/editusers";
         NzTableModule,
         NzFlexDirective,
         NzButtonModule,
-        Addusers,
+        AddUsers,
         Editusers,
     ],
 

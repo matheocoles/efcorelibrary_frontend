@@ -1,1 +1,122 @@
-<h1>Bienvenue</h1>
+<div class="dashboard-container">
+
+    <div style="margin-bottom: 24px;">
+        <h1>Tableau de Bord</h1>
+        <p style="color: #888;">Aperçu en temps réel de la bibliothèque</p>
+    </div>
+
+    <nz-spin [nzSpinning]="isLoading">
+
+        <nz-row [nzGutter]="16">
+
+            <nz-col [nzSpan]="6">
+                <nz-card class="stat-card">
+                    <div class="stat-content">
+                        <div class="stat-icon-wrapper book-color">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-title">Total Livres</div>
+                            <div class="stat-value">{{ stats.totalBooks }}</div>
+                        </div>
+                    </div>
+                </nz-card>
+            </nz-col>
+
+            <nz-col [nzSpan]="6">
+                <nz-card class="stat-card">
+                    <div class="stat-content">
+                        <div class="stat-icon-wrapper author-color">
+                            <i class="fa-solid fa-pen-nib"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-title">Auteurs</div>
+                            <div class="stat-value">{{ stats.totalAuthors }}</div>
+                        </div>
+                    </div>
+                </nz-card>
+            </nz-col>
+
+            <nz-col [nzSpan]="6">
+                <nz-card class="stat-card">
+                    <div class="stat-content">
+                        <div class="stat-icon-wrapper user-color">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-title">Utilisateurs</div>
+                            <div class="stat-value">{{ stats.totalUsers }}</div>
+                        </div>
+                    </div>
+                </nz-card>
+            </nz-col>
+
+            <nz-col [nzSpan]="6">
+                <nz-card class="stat-card">
+                    <div class="stat-content">
+                        <div class="stat-icon-wrapper loan-color">
+                            <i class="fa-solid fa-landmark"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-title">Emprunts</div>
+                            <div class="stat-value">{{ stats.totalLoans }}</div>
+                        </div>
+                    </div>
+                </nz-card>
+            </nz-col>
+        </nz-row>
+
+        <div style="height: 24px;"></div>
+
+        <nz-row [nzGutter]="16">
+
+            <nz-col [nzSpan]="16">
+                <nz-card nzTitle="Calendrier des retours" class="calendar-card">
+                    <app-calendar></app-calendar>
+                </nz-card>
+            </nz-col>
+
+            <nz-col [nzSpan]="8">
+                <nz-card nzTitle="Derniers emprunts" class="loans-card" [nzExtra]="extraTemplate">
+
+                    <div class="loans-list">
+
+                        @for (loan of stats.recentLoans; track loan.loanDate) {
+
+                            <div class="loan-item">
+                                <nz-avatar [nzText]="loan.userName.charAt(0).toUpperCase()"
+                                           style="background-color: #fde3cf; color: #f56a00; margin-right: 12px; flex-shrink: 0;">
+                                </nz-avatar>
+
+                                <div class="loan-details">
+                                    <div class="loan-book">{{ loan.bookTitle }}</div>
+                                    <div class="loan-meta">
+                                        <span class="loan-user">{{ loan.userName }}</span>
+                                        <span style="margin: 0 5px">•</span>
+                                        <span class="loan-date">{{ loan.loanDate | date:'dd/MM/yyyy' }}</span>
+                                    </div>
+                                </div>
+
+                                <i class="fa-solid fa-chevron-right" style="color: #e6e6e6; font-size: 12px;"></i>
+                            </div>
+
+                            <nz-divider style="margin: 10px 0;"></nz-divider>
+                        }
+
+                        <nz-list-empty *ngIf="!isLoading && stats.recentLoans.length === 0"
+                                       nzMessage="Aucun emprunt récent">
+                        </nz-list-empty>
+
+                    </div>
+
+                </nz-card>
+
+                <ng-template #extraTemplate>
+                    <a routerLink="/loans" class="view-all-link">Voir tout</a>
+                </ng-template>
+            </nz-col>
+
+        </nz-row>
+
+    </nz-spin>
+</div>

@@ -1,0 +1,44 @@
+<button nz-button nzType="primary" (click)="showModal()">
+    <span nz-icon nzType="plus"></span> Nouvel Emprunt
+</button>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Créer un emprunt" (nzOnCancel)="handleCancel()" [nzFooter]="null">
+    <ng-container *nzModalContent>
+        <form nz-form [formGroup]="form" (ngSubmit)="submit()" nzLayout="vertical">
+
+            <nz-form-item>
+                <nz-form-label nzRequired>Livre</nz-form-label>
+                <nz-form-control nzErrorTip="Requis">
+                    <nz-select formControlName="bookId" nzShowSearch nzPlaceHolder="Sélectionner un livre">
+                        @for (book of booksList; track book.id) {
+                            <nz-option [nzValue]="book.id" [nzLabel]="book.title"></nz-option>
+                        }
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-label nzRequired>Emprunteur</nz-form-label>
+                <nz-form-control nzErrorTip="Requis">
+                    <nz-select formControlName="userId" nzShowSearch nzPlaceHolder="Sélectionner un utilisateur">
+                        @for (user of usersList; track user.id) {
+                            <nz-option [nzValue]="user.id" [nzLabel]="user.name + ' ' + user.firstName"></nz-option>
+                        }
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-label nzRequired>Date de début</nz-form-label>
+                <nz-form-control nzErrorTip="Requis">
+                    <nz-date-picker formControlName="date" style="width: 100%"></nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+
+            <div style="text-align: right; margin-top: 16px;">
+                <button nz-button [nzLoading]="isSubmitting" nzType="primary">Valider</button>
+            </div>
+
+        </form>
+    </ng-container>
+</nz-modal>
