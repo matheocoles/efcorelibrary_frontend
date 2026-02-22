@@ -14,9 +14,9 @@
         <nz-descriptions nzTitle="Informations" nzBordered [nzColumn]="2" size="small">
             <nz-descriptions-item nzTitle="Livre"><strong>{{ loan.bookTitle }}</strong></nz-descriptions-item>
             <nz-descriptions-item nzTitle="Emprunteur">{{ loan.userName }}</nz-descriptions-item>
-            <nz-descriptions-item nzTitle="Emprunté le">{{ loan.loanDate | date:'dd/MM/yyyy' }}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Emprunté le">{{ loan.date | date:'dd/MM/yyyy' }}</nz-descriptions-item>
             <nz-descriptions-item nzTitle="Retour prévu">
-                <span style="color: #faad14">{{ loan.dueDate | date:'dd/MM/yyyy' }}</span>
+                <span style="color: #faad14">{{ loan.plannedReturningDate | date:'dd/MM/yyyy' }}</span>
             </nz-descriptions-item>
         </nz-descriptions>
 

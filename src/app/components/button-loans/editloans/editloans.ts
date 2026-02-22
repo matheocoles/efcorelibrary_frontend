@@ -77,8 +77,9 @@ export class EditLoans{
     /**
      * Envoie la modification au Backend
      */
+    // editloan.component.ts
+
     async submit() {
-        // On vérifie que le form est valide et qu'on a bien un ID d'emprunt
         if (this.form.valid && this.loan.id) {
             this.isSubmitting = true;
             try {
@@ -86,22 +87,30 @@ export class EditLoans{
 
                 if (!dateValue) return;
 
-                // Construction du DTO pour l'API (Patch)
+                // --- CORRECTION : FORMATAGE MANUEL YYYY-MM-DD ---
+                const d = new Date(dateValue);
+                const year = d.getFullYear();
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                const day = String(d.getDate()).padStart(2, '0');
+                const formattedDate = `${year}-${month}-${day}`;
+
                 const patchDto: PatchEffectiveReturnDto = {
-                    effectiveReturningDate: dateValue.toISOString()
+                    effectiveReturningDate: formattedDate // On envoie "2025-12-06"
                 };
 
-                // Appel au service généré pour patcher la date de retour
                 await firstValueFrom(this.loansService.patchEffectiveReturnEndpoint(this.loan.id, patchDto));
 
                 this.notif.success('Succès', 'Le retour a été enregistré.');
                 this.handleCancel();
-
-                // Important : on notifie le parent pour qu'il mette à jour le tableau
                 this.loanEdited.emit();
-            } catch(e) {
+            } catch(e: any) { // Typage any pour lire l'erreur
                 console.error(e);
-                this.notif.error('Erreur', 'Impossible d\'enregistrer le retour.');
+
+                // Affiche le message d'erreur précis du serveur
+                let msg = 'Impossible d\'enregistrer le retour.';
+                if(e.error && e.error.errors) msg = JSON.stringify(e.error.errors);
+
+                this.notif.error('Erreur', msg);
             } finally {
                 this.isSubmitting = false;
             }

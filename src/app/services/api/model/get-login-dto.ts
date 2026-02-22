@@ -11,9 +11,8 @@
 
 export interface GetLoginDto { 
     id?: number;
-    username?: string | null;
-    fullName?: string | null;
-    password?: string | null;
-    salt?: string | null;
+    username?: string;
+    fullName?: string;
+    role?: string;
 }
 
